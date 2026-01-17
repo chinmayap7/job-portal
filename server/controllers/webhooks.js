@@ -24,7 +24,7 @@ export const clerkWebhooks = async (req, res) => {
                 const userData = {
                     _id: data.id,
                     // 2. FIXED: Correct email path (singular email_address at the end)
-                    email: data.email_addresses[0].email_address,
+                    email: data.email_addresses[0]?.email_address || "",
                     name: data.first_name + " " + data.last_name,
                     image: data.image_url,
                     resume: ''
@@ -35,7 +35,7 @@ export const clerkWebhooks = async (req, res) => {
 
             case 'user.updated': {
                 const userData = {
-                    email: data.email_addresses[0].email_address, // Fixed path here too
+                    email: data.email_addresses[0]?.email_address || "",// Fixed path here too
                     name: data.first_name + " " + data.last_name,
                     image: data.image_url,
                 };
