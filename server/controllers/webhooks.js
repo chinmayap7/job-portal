@@ -1,11 +1,13 @@
 import { Webhook } from "svix";
 import User from "../models/User.js";
+import connectDB from "../config/db.js";
 
 // api controller function to  manage clerk user with DB
 
 export const clerkWebhooks = async (req,res)=>{
     try{
         // Create a Svix instance with clerk web screte
+        await connectDB();
         const Whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
 
         // verifing headers
@@ -23,7 +25,7 @@ export const clerkWebhooks = async (req,res)=>{
             case 'user.created':{
                 const userData = {
                     _id:data.id,
-                    email:data.email_addresses[0].email_addresses,
+                    email:data.email_address[0].email_addresses,
                     name :data.first_name + " " + data.last_name,
                     image:data.image_url,
                     resume:''
