@@ -8,10 +8,7 @@ import { toast } from 'react-toastify'
 const ViewApplications = () => {
 
     const { backendUrl, companyToken } = useContext(AppContext)
-
     const [applicants, setApplicants] = useState(false)
-    
-    // 1. Added state to track which menu is open by ID
     const [showAction, setShowAction] = useState(null)
 
     const fetchCompanyJobApplications = async () => {
@@ -37,7 +34,6 @@ const ViewApplications = () => {
 
             if (data.success) {
                 fetchCompanyJobApplications()
-                // 2. Close the menu after status change
                 setShowAction(null)
             } else {
                 toast.error(data.message)
@@ -90,15 +86,12 @@ const ViewApplications = () => {
                                 <td className='py-2 px-4 border-b border-gray-400 relative'>
                                     {applicant.status === "Pending"
                                         ? <div className='relative inline-block text-left'>
-                                            {/* 3. Replaced hover logic with onClick toggle */}
                                             <button 
                                                 onClick={() => setShowAction(showAction === applicant._id ? null : applicant._id)} 
                                                 className='text-gray-500 action-button px-2'
                                             >
                                                 ...
                                             </button>
-                                            
-                                            {/* 4. Conditional rendering based on state ID instead of CSS group-hover */}
                                             {showAction === applicant._id && (
                                                 <div className='z-10 absolute right-0 md:left-0 top-full mt-2 w-32 bg-white border border-gray-400 rounded shadow'>
                                                     <button onClick={() => changeJobApplicationStatus(applicant._id, 'Accepted')} className='block w-full text px-4 py-2 text-blue-500 hover:bg-gray-100 text-left'>Accept</button>
